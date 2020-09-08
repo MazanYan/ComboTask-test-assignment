@@ -2,9 +2,11 @@
   "name": "test-task",
   "version": "1.0.0",
   "description": "ComboTask test assignment",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
-    "test": "echo \"No test specified!\""
+    "test": "echo \"No test specified!\"",
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "keywords": [
     "react",
@@ -14,7 +16,18 @@
   "author": "MazanYan",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.11.6",
     "react": "^16.13.1",
-    "react-redux": "^7.2.1"
+    "react-dom": "^16.13.1",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "html-webpack-plugin": "^4.4.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }
