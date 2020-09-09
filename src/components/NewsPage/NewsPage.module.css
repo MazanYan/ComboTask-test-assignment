@@ -1,0 +1,59 @@
+.main {
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 5rem;
+}
+
+.main > * {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.tableItem > * {
+    text-align: left;
+    padding-left: 1rem;
+}
+
+thead {
+    background-color: #ffcd68;
+    color: #352300;
+    line-height: 3rem;
+}
+
+#timeAdded {
+    width: 150px;
+}
+
+#tableLink {
+    width: 200px;
+}
+
+.sortIcon {
+    display: none;
+}
+
+th:hover .sortIcon {
+    display: inline-block;
+    height: 1rem;
+}
+
+@media(max-width: 450px) {
+    th:nth-child(1),
+    th:nth-child(3),
+    td:nth-child(1),
+    td:nth-child(3) {
+        display: none;
+    }
+
+    #tableText {
+        line-height: 3rem;
+    }
+}

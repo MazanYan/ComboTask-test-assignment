@@ -13,11 +13,9 @@ tr.newsItem:hover {
     white-space: unset;
 }
 
-/*.lastLine {
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-}*/
+.newsHeader {
+    font-size: large;
+}
 
 .lastLine {
     max-height: 3.6rem;
@@ -33,16 +31,6 @@ tr.newsItem:hover {
     bottom: 0;
     right: 0;
 }
-
-/*.lastLine::after {
-    content: "";
-    position: relative;
-    display: inline-block;*/
-    /*right: 0;*/
-    /*width: 1rem;
-    height: 1rem;*/
-    /*background: white;
-}*/
 
 .newsLink > * {
     text-decoration: none;
