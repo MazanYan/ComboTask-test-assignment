@@ -1,0 +1,32 @@
+.main {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 5rem;
+}
+
+.main > * {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+thead {
+    background-color: #ffcd68;
+    color: #352300;
+    line-height: 1.5rem;
+}
+
+#timeAdded {
+    width: 80px;
+}
+
+#tableLink {
+    width: 200px;
+}
