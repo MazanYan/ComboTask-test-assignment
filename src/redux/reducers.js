@@ -2,8 +2,7 @@ import * as a from './actionTypes';
 
 const initialState = {
     news: [],
-    //pageToFetch: 1,
-    loading: false,
+    loading: false
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -18,13 +17,9 @@ export default function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                news: state.news.concat(action.payload.news),
-                //pageToFetch: state.pageToFetch++
+                news: state.news.concat(action.payload.news)
             };
         case a.ORDER_BY_COLUMN: {
-            console.log('OrderByColumn reducer');
-            console.log(`Field: ${action.payload.column}`);
-            console.log(state.news[0]);
             const orderFunction = (news, field) => news.sort((a, b) => a[field] < b[field]);
 
             const newState = {

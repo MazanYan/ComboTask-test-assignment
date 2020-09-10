@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchMoreNews, orderByColumn } from '../../redux/actions';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 import NewsItem from '../NewsItem';
 import styles from './NewsPage.module.css';
@@ -11,6 +12,7 @@ function NewsPage({ news, loading, requestData, orderByColumn }) {
 
     const [pageToLoad, setPageToLoad] = useState(2);
     const [order, setOrder] = useState('asc');
+    const { width } = useWindowDimensions();
 
     const switchOrder = () => order === 'asc' ? setOrder('desc') : setOrder('asc');
 
@@ -30,7 +32,13 @@ function NewsPage({ news, loading, requestData, orderByColumn }) {
                         </th>
                         <th 
                             id={styles.tableText} 
-                            onClick={() => { orderByColumn('title', order); switchOrder() }}
+                            onClick={() => {
+                                if (width > 500)
+                                    orderByColumn('title', order);
+                                else
+                                    orderByColumn('time', order);
+                                switchOrder() 
+                            }}
                         >
                             Title
                         </th>
@@ -67,7 +75,7 @@ function NewsPage({ news, loading, requestData, orderByColumn }) {
                     }
                     <tr>
                         <td className={styles.loadMore} colSpan="3" onClick={() => {
-                            requestData(pageToLoad/*, window.pageYOffset*/);
+                            requestData(pageToLoad);
                             setPageToLoad(pageToLoad+1);
                         }}>
                             Load More
@@ -79,23 +87,14 @@ function NewsPage({ news, loading, requestData, orderByColumn }) {
     );
 }
 
-const mapStateToProps = state => {
-
-    console.log('State to render');
-    console.log(state);
-    return {
-        news: state.news,
-        loading: state.loading,
-        //scrollPosition: state.oldScrollPosition
-    };
-};
+const mapStateToProps = state => ({
+    news: state.news,
+    loading: state.loading
+});
 
 const mapDispatchToProps = dispatch => ({
     requestData: (pageToLoad, scrollPosition) => dispatch(fetchMoreNews(pageToLoad, scrollPosition)),
-    orderByColumn: (column, order) => {
-        console.log('OrderByColumn clicked!');
-        dispatch(orderByColumn(column, order));
-    }
+    orderByColumn: (column, order) => dispatch(orderByColumn(column, order))
 });
 
 NewsPage.propTypes = {

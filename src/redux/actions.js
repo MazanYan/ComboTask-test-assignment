@@ -24,8 +24,6 @@ export function requestNews() {
 }
 
 export function receiveNews(news) {
-    console.log('Dispatch receive news');
-    console.log(news);
     return {
         type: a.RECEIVE_DATA,
         payload: {
@@ -41,10 +39,6 @@ export function fetchMoreNews(pageNum) {
     return (dispatch) => {
         dispatch(requestNews());
         axios.get(`${newsApi}/${pageNum}.json`)
-            .then(response => {
-                console.log('Server response');
-                console.log(response.data);
-                dispatch(receiveNews(response.data))
-            });
+            .then(response => dispatch(receiveNews(response.data)));
     }
 }
