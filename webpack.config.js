@@ -2,8 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+    mode: "development",
     devServer: {
-        contentBase: path.join(__dirname, "dist"),
+        contentBase: path.join(__dirname, "src"),
         historyApiFallback: true,
         compress: true,
         port: 9000,
@@ -12,7 +13,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: 'index.js',
+        filename: 'main.js',
         publicPath: '/'
     },
     module: {
@@ -46,8 +47,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./public/index.html",
-            favicon: "./public/favicon.ico"
+            template: "./src/public/index.html",
+            favicon: "./src/public/favicon.ico"
         })
     ]
 };

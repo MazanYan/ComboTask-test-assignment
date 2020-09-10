@@ -25,6 +25,11 @@ tr.newsItem:hover {
     -webkit-box-orient: vertical;
 }
 
+.commentsCount {
+    font-size: small;
+    color: rgba(0, 0, 0, 0.4);
+}
+
 .newsLink > * {
     text-decoration: none;
 }

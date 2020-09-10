@@ -28,6 +28,10 @@ thead {
     line-height: 3rem;
 }
 
+.tableItem th:hover {
+    background-color: #e9bc61;
+}
+
 #timeAdded {
     width: 150px;
 }
@@ -36,13 +40,8 @@ thead {
     width: 200px;
 }
 
-.sortIcon {
-    display: none;
-}
-
-th:hover .sortIcon {
-    display: inline-block;
-    height: 1rem;
+.loadMore {
+    padding: 1rem;
 }
 
 @media(max-width: 500px) {

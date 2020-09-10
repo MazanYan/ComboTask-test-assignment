@@ -1,5 +1,8 @@
-import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, HashRouter as Router } from 'react-router-dom';
+import { fetchMoreNews } from './redux/actions';
+
+import { connect } from 'react-redux';
 
 import styles from './App.module.css';
 
@@ -7,16 +10,23 @@ import Navbar from './components/Navbar';
 import NewsPage from './components/NewsPage';
 import NewsItemComments from './components/NewsItemComments';
 
-export default function App() {
+function App({ requestData }) {
+
+    useEffect(() => requestData(), []);
+
     return (
-        <BrowserRouter>
+        <Router>
             <div id={ styles.root }>
                 <Navbar />
-                <Switch>
-                    <Route path="/" exact component={NewsPage} />
-                    <Route path="/:newsId" component={NewsItemComments} />
-                </Switch>
+                <Route exact path="/" component={NewsPage} />
+                <Route path="/:newsId" component={NewsItemComments} />
             </div>
-        </BrowserRouter>
+        </Router>
     );
 }
+
+const mapDispatchToProps = dispatch => ({
+    requestData: () => dispatch(fetchMoreNews(1, 0))
+});
+
+export default connect(null, mapDispatchToProps)(App);

@@ -1,38 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { fetchMoreNews, orderByColumn } from '../../redux/actions';
 
 import NewsItem from '../NewsItem';
 import styles from './NewsPage.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSortDown } from '@fortawesome/free-solid-svg-icons'
 import LoadSpinner from '../LoadSpinner';
 
+function NewsPage({ news, loading, requestData, orderByColumn }) {
 
-const newsApi = 'https://api.hnpwa.com/v0/news';
+    const [pageToLoad, setPageToLoad] = useState(2);
+    const [order, setOrder] = useState('asc');
 
-export default function NewsPage() {
-
-    const [pageToLoad, setPageToLoad] = useState(1);
-    
-    const [news, setNews] = useState([]);
-    const [loading, setLoading] = useState(true);
-    
-    useEffect(() => {
-        handleGetNews();
-    }, []);
-
-    const handleGetNews = () => {
-        setLoading(true);
-        const oldScrollPosition = window.pageYOffset;
-        axios.get(`${newsApi}/${pageToLoad}.json`)
-            .then(response => {
-                console.log(response);
-                setPageToLoad(pageToLoad+1);
-                setNews(news.concat(response.data));
-                setLoading(false);
-                window.scrollTo(0, oldScrollPosition);
-            });        
-    };
+    const switchOrder = () => order === 'asc' ? setOrder('desc') : setOrder('asc');
 
     return (
         <main className={styles.main}>
@@ -42,23 +22,29 @@ export default function NewsPage() {
             <table id="news-feed">
                 <thead>
                     <tr className={styles.tableItem}>
-                        <th id={styles.timeAdded}>
+                        <th 
+                            id={styles.timeAdded} 
+                            onClick={() => { orderByColumn('time', order); switchOrder() }}
+                        >
                             Time added
-                            <FontAwesomeIcon icon={faSortDown} className={styles.sortIcon}/>
                         </th>
-                        <th id={styles.tableText}>
-                            News Title
-                            <FontAwesomeIcon icon={faSortDown} className={styles.sortIcon}/>
+                        <th 
+                            id={styles.tableText} 
+                            onClick={() => { orderByColumn('title', order); switchOrder() }}
+                        >
+                            Title
                         </th>
-                        <th id={styles.tableLink}>
+                        <th 
+                            id={styles.tableLink} 
+                            onClick={() => { orderByColumn('domain', order); switchOrder() }}
+                        >
                             Link
-                            <FontAwesomeIcon icon={faSortDown} className={styles.sortIcon}/>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        !loading && !!news &&
+                        !!news &&
                             news.map(news => (
                                 <NewsItem 
                                     key={news.id} 
@@ -67,6 +53,7 @@ export default function NewsPage() {
                                     newsURL={news.url}
                                     newsDomain={news.domain}
                                     newsId={news.id}
+                                    commentsCount={news.comments_count}
                                 />
                             ))
                     }
@@ -79,7 +66,10 @@ export default function NewsPage() {
                         </tr>
                     }
                     <tr>
-                        <td colSpan="3" onClick={handleGetNews}>
+                        <td className={styles.loadMore} colSpan="3" onClick={() => {
+                            requestData(pageToLoad/*, window.pageYOffset*/);
+                            setPageToLoad(pageToLoad+1);
+                        }}>
                             Load More
                         </td>
                     </tr>
@@ -88,3 +78,29 @@ export default function NewsPage() {
         </main>
     );
 }
+
+const mapStateToProps = state => {
+
+    console.log('State to render');
+    console.log(state);
+    return {
+        news: state.news,
+        loading: state.loading,
+        //scrollPosition: state.oldScrollPosition
+    };
+};
+
+const mapDispatchToProps = dispatch => ({
+    requestData: (pageToLoad, scrollPosition) => dispatch(fetchMoreNews(pageToLoad, scrollPosition)),
+    orderByColumn: (column, order) => {
+        console.log('OrderByColumn clicked!');
+        dispatch(orderByColumn(column, order));
+    }
+});
+
+NewsPage.propTypes = {
+    news: PropTypes.array,
+    loading: PropTypes.bool
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewsPage);

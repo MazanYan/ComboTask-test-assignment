@@ -17,6 +17,9 @@ function NewsItem(props) {
                         <p className={styles.newsHeader}>
                             {props.newsHeader}
                         </p>
+                        <p className={styles.commentsCount}>
+                            {props.commentsCount} comments
+                        </p>
                     </Link>
                 </td>
                 <td className={styles.newsLink}>
@@ -31,6 +34,7 @@ function NewsItem(props) {
 NewsItem.propTypes = {
     timeAdded: PropTypes.string,
     newsHeader: PropTypes.string,
+    commentsCount: PropTypes.number,
     newsURL: PropTypes.string,
     newsDomain: PropTypes.string,
     newsId: PropTypes.number
