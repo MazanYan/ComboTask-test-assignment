@@ -1,0 +1,13 @@
+.main {
+    margin-left: 2rem;
+    max-width: 1080px;
+    padding-bottom: 5rem;
+}
+
+.timeAgo {
+    color: #1d14009a;
+}
+
+.comment {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}

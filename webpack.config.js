@@ -1,45 +1,19 @@
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-/*const HTMLplugin = require('html-webpack-plugin');
-
-const rules = [
-    {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-            loader: 'babel-loader'
-        }
-    },
-    {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader']
-    }
-];
-    
-module.exports = {
-    entry: path.join(__dirname, 'src', 'index.jsx'),
-    output: {
-        path: path.resolve('dist'),
-        filename: 'bundle.js'
-    },
-    module: { rules },
-    plugins: [
-        new HTMLplugin({
-            template: './public/index.html'
-        })
-    ]
-}*/
-
-
 
 module.exports = {
     devServer: {
         contentBase: path.join(__dirname, "dist"),
+        historyApiFallback: true,
         compress: true,
         port: 9000,
         watchContentBase: true,
         progress: true
+    },
+    output: {
+        path: path.resolve(__dirname, "dist"),
+        filename: 'index.js',
+        publicPath: '/'
     },
     module: {
         rules: [

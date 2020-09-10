@@ -17,19 +17,12 @@ tr.newsItem:hover {
     font-size: large;
 }
 
-.lastLine {
-    max-height: 3.6rem;
-    position: relative;
+.newsText {
     overflow: hidden;
-    padding-right: 0.5rem;
-}
-
-.lastLine::after {
-    position: absolute;
-    display: inline-block;
-    content: "...";
-    bottom: 0;
-    right: 0;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .newsLink > * {

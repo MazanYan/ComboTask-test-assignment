@@ -45,7 +45,7 @@ th:hover .sortIcon {
     height: 1rem;
 }
 
-@media(max-width: 450px) {
+@media(max-width: 500px) {
     th:nth-child(1),
     th:nth-child(3),
     td:nth-child(1),

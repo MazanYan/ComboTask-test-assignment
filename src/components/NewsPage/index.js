@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-//import useAxiosFetch from '../../hooks/useAxiosFetch';
 
 import NewsItem from '../NewsItem';
 import styles from './NewsPage.module.css';
@@ -9,10 +8,10 @@ import { faSortDown } from '@fortawesome/free-solid-svg-icons'
 import LoadSpinner from '../LoadSpinner';
 
 
+const newsApi = 'https://api.hnpwa.com/v0/news';
+
 export default function NewsPage() {
 
-    //const { data, loading } = useAxiosFetch('https://api.hnpwa.com/v0/news/1.json');
-    //const [bottomReached, setBottomReached] = useState(false);
     const [pageToLoad, setPageToLoad] = useState(1);
     
     const [news, setNews] = useState([]);
@@ -25,7 +24,7 @@ export default function NewsPage() {
     const handleGetNews = () => {
         setLoading(true);
         const oldScrollPosition = window.pageYOffset;
-        axios.get(`https://api.hnpwa.com/v0/news/${pageToLoad}.json`)
+        axios.get(`${newsApi}/${pageToLoad}.json`)
             .then(response => {
                 console.log(response);
                 setPageToLoad(pageToLoad+1);
@@ -48,7 +47,7 @@ export default function NewsPage() {
                             <FontAwesomeIcon icon={faSortDown} className={styles.sortIcon}/>
                         </th>
                         <th id={styles.tableText}>
-                            Text
+                            News Title
                             <FontAwesomeIcon icon={faSortDown} className={styles.sortIcon}/>
                         </th>
                         <th id={styles.tableLink}>
@@ -67,6 +66,7 @@ export default function NewsPage() {
                                     newsHeader={news.title}
                                     newsURL={news.url}
                                     newsDomain={news.domain}
+                                    newsId={news.id}
                                 />
                             ))
                     }
