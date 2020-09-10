@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchMoreNews, orderByColumn } from '../../redux/actions';
@@ -10,11 +10,35 @@ import LoadSpinner from '../LoadSpinner';
 
 function NewsPage({ news, loading, requestData, orderByColumn }) {
 
-    const [pageToLoad, setPageToLoad] = useState(2);
+    let pageToLoad = 2;
     const [order, setOrder] = useState('asc');
     const { width } = useWindowDimensions();
 
     const switchOrder = () => order === 'asc' ? setOrder('desc') : setOrder('asc');
+
+    const handleScroll = (_) => {
+        const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+        const body = document.body;
+        const html = document.documentElement;
+        const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+        const windowBottom = windowHeight + window.pageYOffset;
+        if (windowBottom >= docHeight) {
+            // bottom reached
+            window.scrollTo(0, window.pageYOffset);
+            requestData(pageToLoad);
+            pageToLoad++;
+            
+        } else {
+            // bottom not reached
+            return;
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [])
 
     return (
         <main className={styles.main}>
@@ -73,14 +97,6 @@ function NewsPage({ news, loading, requestData, orderByColumn }) {
                             </td>
                         </tr>
                     }
-                    <tr>
-                        <td className={styles.loadMore} colSpan="3" onClick={() => {
-                            requestData(pageToLoad);
-                            setPageToLoad(pageToLoad+1);
-                        }}>
-                            Load More
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </main>
@@ -93,7 +109,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    requestData: (pageToLoad, scrollPosition) => dispatch(fetchMoreNews(pageToLoad, scrollPosition)),
+    requestData: (pageToLoad) => dispatch(fetchMoreNews(pageToLoad)),
     orderByColumn: (column, order) => dispatch(orderByColumn(column, order))
 });
 
